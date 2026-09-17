@@ -5,25 +5,7 @@ import Component1920WLight from "@/imports/1920WLight/index";
 
 const DESIGN_WIDTH = 1920;
 
-function useScrollReveal(containerRef: React.RefObject<HTMLDivElement | null>) {
-  useEffect(() => {
-    const container = containerRef.current;
-    if (!container) return;
-    const io = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((e) => {
-          if (e.isIntersecting) {
-            (e.target as HTMLElement).classList.add("sr-visible");
-            io.unobserve(e.target);
-          }
-        });
-      },
-      { threshold: 0.08, rootMargin: "0px 0px -40px 0px" }
-    );
-    container.querySelectorAll(".sr-target").forEach((t) => io.observe(t));
-    return () => io.disconnect();
-  }, [containerRef]);
-}
+import { useScrollReveal } from "@/components/PageWrapper";
 
 export default function AnimatedSite() {
   const outerRef = useRef<HTMLDivElement>(null);

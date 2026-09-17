@@ -1,8 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import { useRef } from "react";
+import { useRef, useState, useEffect } from "react";
 import PageWrapper, { useScrollReveal } from "@/components/PageWrapper";
+import { motion, useScroll, useTransform, animate, useInView } from "framer-motion";
 
 const logoLight = "/Logos/logo - light(with text).png";
 const logoDark = "/Logos/logo - dark(with text).png";
@@ -38,14 +39,38 @@ const testimonials = [
   },
 ];
 
+function Counter({ from, to, label }: { from: number; to: number; label: string }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const [count, setCount] = useState(from);
+
+  useEffect(() => {
+    if (isInView) {
+      const controls = animate(from, to, {
+        duration: 2,
+        ease: "easeOut",
+        onUpdate(value) {
+          setCount(Math.floor(value));
+        },
+      });
+      return () => controls.stop();
+    }
+  }, [isInView, from, to]);
+
+  return (
+    <div ref={ref} className="flex flex-col items-center border-r border-[#121212]/20 pr-[80px] last:border-0 last:pr-0">
+      <div className="[word-break:break-word] font-['Teko:Bold',sans-serif] text-[80px] text-[#121212] leading-[1]"><p>{count}{to >= 10 ? "+" : ""}</p></div>
+      <div className="[word-break:break-word] font-['Kanit:Regular',sans-serif] text-[#121212] text-[18px] uppercase tracking-widest"><p>{label}</p></div>
+    </div>
+  );
+}
+
 function NavBar() {
   return (
     <div className="border-[#ececec] border-b border-solid content-stretch flex items-center pb-[20px] pt-[17px] px-[50px] relative shrink-0 w-full bg-white" data-name="HorizontalBorder">
       <div className="content-stretch flex flex-col items-start relative shrink-0 w-[260px]">
         <Link href="/" className="content-stretch flex items-start relative shrink-0">
-          <div className="h-[50px] max-w-[260px] relative shrink-0 w-[200px]">
-            <img alt="LiveWires Digital Solutions" className="h-full w-auto" src={logoDark} />
-          </div>
+          <img alt="LiveWires Digital Solutions" className="h-[50px] w-auto" src={logoDark} />
         </Link>
       </div>
       <div className="content-stretch flex flex-col items-start justify-center relative shrink-0 w-[1300px]">
@@ -76,35 +101,16 @@ function FooterSection() {
   return (
     <div className="bg-[#171717] content-stretch flex flex-col items-center justify-center px-[200px] relative shrink-0 w-full">
       <div className="content-stretch flex items-start max-w-[1520px] pb-[60px] pt-[80px] relative shrink-0 w-full gap-[80px]">
-        {/* Brand */}
         <div className="flex flex-col items-start gap-[24px] shrink-0 w-[360px]">
           <img alt="LiveWires Digital Solutions" src={logoLight} className="h-[60px] w-auto" />
-          <div className="[word-break:break-word] font-['Kanit:Regular',sans-serif] text-[#999] text-[16px] leading-[26px]">
-            <p>We are a team of passionate developers, designers, and problem-solvers focused on building technology that creates real value.</p>
-          </div>
-          <div className="flex gap-[12px]">
-            {[["LinkedIn", "https://www.linkedin.com/company/livewires-digital-solutions"], ["GitHub", "https://github.com/livewiresdigitalsolutions"]].map(([label, href]) => (
-              <a key={label} href={href} target="_blank" rel="noopener noreferrer" className="bg-[#c9f31d] w-[40px] h-[40px] flex items-center justify-center rounded-[3px] text-[#121212] text-[13px] font-['Kanit:Bold',sans-serif] hover:bg-white transition-colors">
-                {label[0]}
-              </a>
-            ))}
-          </div>
+          <div className="[word-break:break-word] font-['Kanit:Regular',sans-serif] text-[#999] text-[16px] leading-[26px]"><p>We are a team of passionate developers, designers, and problem-solvers focused on building technology that creates real value.</p></div>
         </div>
-        {/* Quick Links */}
         <div className="flex flex-col items-start gap-[16px] shrink-0 w-[200px]">
           <div className="[word-break:break-word] font-['Teko:SemiBold',sans-serif] text-white text-[28px] uppercase leading-[1]"><p>Quick Links</p></div>
           {[["Home", "/"], ["About Us", "/about"], ["Projects", "/projects"], ["Team", "/team"], ["Contact", "/contact"]].map(([label, href]) => (
             <Link key={label} href={href} className="[word-break:break-word] font-['Kanit:Regular',sans-serif] text-[#999] text-[16px] leading-[26px] hover:text-[#c9f31d] transition-colors"><p>{label}</p></Link>
           ))}
         </div>
-        {/* Services */}
-        <div className="flex flex-col items-start gap-[16px] shrink-0 w-[260px]">
-          <div className="[word-break:break-word] font-['Teko:SemiBold',sans-serif] text-white text-[28px] uppercase leading-[1]"><p>Services</p></div>
-          {["Web Development", "Mobile App Development", "AI Solutions", "UI/UX Design", "Graphic Design", "IoT Solutions", "Digital Marketing"].map((s) => (
-            <Link key={s} href="/about" className="[word-break:break-word] font-['Kanit:Regular',sans-serif] text-[#999] text-[16px] leading-[26px] hover:text-[#c9f31d] transition-colors"><p>{s}</p></Link>
-          ))}
-        </div>
-        {/* Contact */}
         <div className="flex flex-col items-start gap-[16px] shrink-0 w-[280px]">
           <div className="[word-break:break-word] font-['Teko:SemiBold',sans-serif] text-white text-[28px] uppercase leading-[1]"><p>Contact</p></div>
           {[["📍", "Chennai, Tamil Nadu, India"], ["📞", "+91 8925476709"], ["✉️", "contact@livewiresdigitalsolutions.com"]].map(([icon, text]) => (
@@ -115,11 +121,8 @@ function FooterSection() {
           ))}
         </div>
       </div>
-      {/* Bottom Bar */}
       <div className="border-t border-[#ffffff18] w-full max-w-[1520px] py-[30px]">
-        <div className="[word-break:break-word] font-['Teko:Regular',sans-serif] text-[#666] text-[22px] uppercase text-center leading-[22px]">
-          <p>© 2026 LiveWires Digital Solutions. All Rights Reserved.</p>
-        </div>
+        <div className="[word-break:break-word] font-['Teko:Regular',sans-serif] text-[#666] text-[22px] uppercase text-center leading-[22px]"><p>© 2026 LiveWires Digital Solutions. All Rights Reserved.</p></div>
       </div>
     </div>
   );
@@ -129,125 +132,109 @@ function AboutContent() {
   const containerRef = useRef<HTMLDivElement>(null);
   useScrollReveal(containerRef as React.RefObject<HTMLDivElement>);
 
+  const { scrollYProgress } = useScroll({ target: containerRef, offset: ["start start", "end end"] });
+  const pathLength = useTransform(scrollYProgress, [0.3, 0.7], [0, 1]);
+
+  const heroText = "WHO WE ARE";
+
   return (
-    <div ref={containerRef} className="bg-white content-stretch flex flex-col items-start relative size-full">
+    <div ref={containerRef} className="bg-white content-stretch flex flex-col items-start relative size-full overflow-hidden">
       <NavBar />
 
       {/* ── HERO ── */}
-      <div className="bg-white content-stretch flex flex-col items-start justify-center relative shrink-0 w-full px-[76px] pt-[120px] pb-[80px]" style={{ background: "linear-gradient(135deg,#f8fce8 0%,#f0f5d6 40%,#eef7c2 60%,#f5f9e0 100%)" }}>
-        <div className="sr-target relative shrink-0 w-full">
-          <div className="bg-[#c9f31d] content-stretch flex flex-col items-center justify-center absolute left-0 top-[-30px] min-h-[80px] py-[10px] rounded-[48px] w-[160px]">
-            <div className="-rotate-90 flex-none">
-              <div className="[word-break:break-word] font-['Teko:Regular',sans-serif] font-normal justify-center leading-[0] text-[24px] text-black whitespace-nowrap">
-                <p className="leading-[19.8px]">our story</p>
-              </div>
-            </div>
+      <div className="relative shrink-0 w-full px-[76px] pt-[120px] pb-[100px]" style={{ background: "linear-gradient(135deg,#f8fce8 0%,#f0f5d6 40%,#eef7c2 60%,#f5f9e0 100%)" }}>
+        <div>
+          <div className="bg-[#c9f31d] inline-flex items-center justify-center px-[24px] py-[10px] rounded-[48px] mb-[24px] sr-target">
+            <div className="[word-break:break-word] font-['Kanit:Medium',sans-serif] text-[#121212] text-[14px] uppercase tracking-widest"><p>About LiveWires</p></div>
           </div>
-          <div className="[word-break:break-word] font-['Teko:Bold',sans-serif] font-bold leading-[0] text-[190px] text-black uppercase ml-[200px]">
-            <p className="leading-[144.4px]">Who</p>
-            <p className="leading-[144.4px]">We Are</p>
-          </div>
-        </div>
-        <div className="sr-target mt-[40px] max-w-[800px] ml-[200px]">
-          <div className="[word-break:break-word] font-['Kanit:Regular',sans-serif] text-[#555] text-[22px] leading-[34px]">
-            <p>LiveWires Digital Solutions is a Chennai-based digital agency delivering web apps, mobile apps, AI solutions, and creative designs that solve real-world problems and elevate brands.</p>
-          </div>
-        </div>
-      </div>
-
-      {/* ── STORY + STATS ── */}
-      <div className="content-stretch flex items-start px-[76px] pt-[100px] pb-[80px] relative shrink-0 w-full gap-[80px]">
-        {/* Left text */}
-        <div className="sr-target flex flex-col items-start gap-[32px] flex-1">
-          <div className="bg-[#c9f31d] px-[20px] py-[8px] rounded-[4px]">
-            <div className="[word-break:break-word] font-['Kanit:Medium',sans-serif] text-[#121212] text-[14px] uppercase tracking-widest"><p>Get To Know About Us</p></div>
-          </div>
-          <div className="[word-break:break-word] font-['Teko:Bold',sans-serif] font-bold leading-[0] text-[80px] text-black uppercase">
-            <p className="leading-[72px]">We Are Here</p>
-            <p className="leading-[72px]">To Give You</p>
-            <p className="leading-[72px]"><span className="bg-[#c9f31d] px-[8px]">Effective Ideas</span></p>
-          </div>
-          <div className="[word-break:break-word] font-['Kanit:Regular',sans-serif] text-[#555] text-[20px] leading-[32px] max-w-[600px]">
-            <p>LiveWires Digital Solutions is a Chennai-based software and digital solutions company driven by innovation, quality, and customer satisfaction. We are a team of passionate developers, designers, and problem-solvers focused on building technology that creates real value for our clients.</p>
-          </div>
-          <Link href="/contact" className="bg-[#121212] content-stretch flex items-center gap-[10px] px-[32px] py-[14px] relative rounded-[3px] shrink-0" data-name="Button">
-            <div className="[word-break:break-word] font-['Kanit:Medium',sans-serif] text-white text-[14px] uppercase"><p>Get Started Now →</p></div>
-          </Link>
-        </div>
-
-        {/* Right stats */}
-        <div className="sr-target flex flex-col items-start gap-[0px] shrink-0 w-[500px]">
-          <div className="relative w-full h-[340px] rounded-[20px] overflow-hidden">
-            <img src="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&w=800&q=80" className="w-full h-full object-cover" alt="Team working" />
-            <div className="absolute top-[40px] right-[-20px] bg-[#c9f31d] w-[140px] h-[140px] rounded-full flex flex-col items-center justify-center shadow-lg">
-              <div className="[word-break:break-word] font-['Teko:Bold',sans-serif] text-[48px] text-black leading-[1]"><p>2+</p></div>
-              <div className="[word-break:break-word] font-['Kanit:Regular',sans-serif] text-[14px] text-black text-center"><p>Years Of Experience</p></div>
-            </div>
-          </div>
-          {/* Stats row */}
-          <div className="flex items-center w-full mt-[40px] border-t border-[#ececec] pt-[30px] gap-[0px]">
-            {[["13+", "Projects"], ["10+", "Clients"], ["7", "Services"], ["2+", "Years"]].map(([num, label], i) => (
-              <div key={label} className={`flex flex-col items-center flex-1 ${i < 3 ? "border-r border-[#c9f31d]" : ""}`}>
-                <div className="[word-break:break-word] font-['Teko:Bold',sans-serif] text-[60px] text-black leading-[1]" data-counter><p>{num}</p></div>
-                <div className="[word-break:break-word] font-['Kanit:Regular',sans-serif] text-[#555] text-[16px] uppercase"><p>{label}</p></div>
-              </div>
+          
+          <div className="[word-break:break-word] font-['Teko:Bold',sans-serif] font-bold leading-[0] text-[190px] text-black uppercase flex overflow-hidden h-[160px] items-end">
+            {heroText.split("").map((char, i) => (
+              <motion.span
+                key={i}
+                initial={{ y: "100%" }}
+                animate={{ y: 0 }}
+                transition={{ duration: 0.8, delay: i * 0.05, ease: [0.22, 1, 0.36, 1] }}
+                className={char === " " ? "w-[40px]" : "inline-block"}
+              >
+                {char}
+              </motion.span>
             ))}
           </div>
+
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.8 }}
+            className="[word-break:break-word] font-['Kanit:Regular',sans-serif] text-[#555] text-[24px] leading-[36px] max-w-[700px] mt-[32px]"
+          >
+            <p>We are a Chennai-based digital agency of passionate developers, designers, and problem-solvers. We don&apos;t just write code — we build technology that creates real value.</p>
+          </motion.div>
         </div>
       </div>
 
-      {/* ── SERVICES ── */}
-      <div className="bg-[#121212] content-stretch flex flex-col items-start px-[76px] py-[100px] relative shrink-0 w-full">
+      {/* ── STATS STRIP ── */}
+      <div className="bg-[#c9f31d] content-stretch flex items-center justify-center py-[40px] px-[76px] relative shrink-0 w-full overflow-hidden">
+        <div className="flex items-center gap-[80px]">
+          <Counter from={0} to={13} label="Team Members" />
+          <Counter from={0} to={13} label="Projects Delivered" />
+          <Counter from={0} to={10} label="Happy Clients" />
+          <Counter from={0} to={5} label="Global Countries" />
+        </div>
+      </div>
+
+      {/* ── OUR SERVICES ── */}
+      <div className="content-stretch flex flex-col items-start px-[76px] py-[100px] relative shrink-0 w-full bg-white">
         <div className="sr-target flex flex-col items-start gap-[16px] mb-[60px]">
-          <div className="border border-[#c9f31d30] px-[16px] py-[8px] rounded-[3px]">
-            <div className="[word-break:break-word] font-['Kanit:Medium',sans-serif] text-[#c9f31d] text-[14px] uppercase tracking-widest"><p>Featured Services</p></div>
+          <div className="border border-[#ececec] px-[16px] py-[8px] rounded-[3px]">
+            <div className="[word-break:break-word] font-['Kanit:Medium',sans-serif] text-[#555] text-[14px] uppercase tracking-widest"><p>Our Expertise</p></div>
           </div>
-          <div className="[word-break:break-word] font-['Teko:Bold',sans-serif] font-bold leading-[0] text-[70px] text-white uppercase">
-            <p className="leading-[60px]">The Best <span className="bg-[#c9f31d] text-black px-[8px]">Services</span></p>
+          <div className="[word-break:break-word] font-['Teko:Bold',sans-serif] font-bold leading-[0] text-[70px] text-black uppercase">
+            <p className="leading-[60px]">What We <span className="bg-[#c9f31d] px-[8px]">Do</span></p>
           </div>
         </div>
-        <div className="grid w-full" style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "24px" }}>
+        <div className="grid w-full gap-[32px]" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)" }}>
           {services.map((s, i) => (
-            <div key={s.title} className="sr-target border border-white/10 hover:border-[#c9f31d] transition-all duration-300 p-[32px] flex flex-col gap-[20px] rounded-[4px] bg-white/5">
-              <div className="text-[40px]">{s.icon}</div>
-              <div className="[word-break:break-word] font-['Teko:SemiBold',sans-serif] text-white text-[28px] uppercase leading-[1.1]"><p>{s.title}</p></div>
-              <div className="[word-break:break-word] font-['Kanit:Regular',sans-serif] text-[#999] text-[16px] leading-[26px]"><p>{s.desc}</p></div>
+            <div key={s.title} className="sr-target bg-[#f9f9f9] border border-[#ececec] p-[40px] rounded-[4px] hover:border-[#c9f31d] transition-colors group cursor-pointer">
+              <div className="text-[48px] mb-[24px] group-hover:scale-110 transition-transform transform origin-left">{s.icon}</div>
+              <div className="[word-break:break-word] font-['Teko:SemiBold',sans-serif] text-black text-[32px] uppercase leading-[1] mb-[12px]"><p>{s.title}</p></div>
+              <div className="[word-break:break-word] font-['Kanit:Regular',sans-serif] text-[#666] text-[16px] leading-[26px]"><p>{s.desc}</p></div>
             </div>
           ))}
         </div>
       </div>
 
-      {/* ── WORK PROCESS ── */}
-      <div className="content-stretch flex flex-col items-center px-[76px] py-[100px] relative shrink-0 w-full bg-white">
-        <div className="sr-target flex flex-col items-center gap-[16px] mb-[80px]">
-          <div className="border border-[#ececec] px-[16px] py-[8px] rounded-[3px]">
-            <div className="[word-break:break-word] font-['Kanit:Medium',sans-serif] text-[#555] text-[14px] uppercase tracking-widest"><p>Our Working Process</p></div>
+      {/* ── PROCESS SECTION (SVG LINE DRAW) ── */}
+      <div className="bg-[#121212] content-stretch flex flex-col items-start px-[76px] py-[120px] relative shrink-0 w-full overflow-hidden">
+        <div className="sr-target flex flex-col items-start gap-[16px] mb-[80px]">
+          <div className="border border-[#c9f31d30] px-[16px] py-[8px] rounded-[3px]">
+            <div className="[word-break:break-word] font-['Kanit:Medium',sans-serif] text-[#c9f31d] text-[14px] uppercase tracking-widest"><p>How We Work</p></div>
           </div>
-          <div className="[word-break:break-word] font-['Teko:Bold',sans-serif] font-bold leading-[0] text-[70px] text-black uppercase text-center">
-            <p className="leading-[60px]">How Do <span className="bg-[#c9f31d] px-[8px]">We Work</span> ?</p>
+          <div className="[word-break:break-word] font-['Teko:Bold',sans-serif] font-bold leading-[0] text-[70px] text-white uppercase">
+            <p className="leading-[60px]">Our Proven <span className="bg-[#c9f31d] text-black px-[8px]">Process</span></p>
           </div>
         </div>
-        <div className="flex items-start justify-center gap-[0px] w-full max-w-[1200px]">
+
+        <div className="relative flex w-full justify-between items-start pt-[60px] pb-[60px]">
+          {/* Animated Line */}
+          <div className="absolute top-[100px] left-[10%] right-[10%] h-[4px]">
+            <svg className="w-full h-full" preserveAspectRatio="none" viewBox="0 0 100 2">
+              <line x1="0" y1="1" x2="100" y2="1" stroke="#333" strokeWidth="2" strokeDasharray="4 4" />
+              <motion.line x1="0" y1="1" x2="100" y2="1" stroke="#c9f31d" strokeWidth="2" style={{ pathLength }} />
+            </svg>
+          </div>
+
           {[
-            { n: "01", step: "First Step", title: "Problem Analysis", desc: "We understand your business needs and define the project scope clearly." },
-            { n: "02", step: "Second Step", title: "Find Solutions", desc: "We design creative solutions tailored to your specific requirements." },
-            { n: "03", step: "Third Step", title: "Build & Develop", desc: "We bring designs to life with clean, scalable code and rigorous testing." },
+            { step: "01", title: "Problem Analysis", desc: "We dive deep into your requirements, target audience, and business goals to fully understand the challenge." },
+            { step: "02", title: "Find Solutions", desc: "Our architects and designers collaborate to prototype the most efficient, scalable, and beautiful solution." },
+            { step: "03", title: "Build & Develop", desc: "We execute the plan using cutting-edge tech, followed by rigorous testing and a smooth launch." }
           ].map((p, i) => (
-            <div key={p.n} className="sr-target flex items-start flex-1">
-              <div className="flex flex-col items-center text-center w-full px-[40px]">
-                <div className="relative w-[80px] h-[80px] border-2 border-[#ececec] flex items-center justify-center mb-[24px] rounded-[4px]">
-                  <div className="[word-break:break-word] font-['Teko:Bold',sans-serif] text-[28px] text-[#555]"><p>0{i + 1}</p></div>
-                  <div className="absolute -top-[14px] -right-[14px] w-[40px] h-[40px] bg-[#c9f31d] flex items-center justify-center rounded-[4px]">
-                    <div className="[word-break:break-word] font-['Kanit:Bold',sans-serif] text-[14px] text-black"><p>{p.n}</p></div>
-                  </div>
-                </div>
-                <div className="[word-break:break-word] font-['Kanit:Medium',sans-serif] text-[#c9f31d] text-[16px] italic mb-[8px]"><p>{p.step}</p></div>
-                <div className="[word-break:break-word] font-['Teko:SemiBold',sans-serif] text-black text-[32px] uppercase mb-[12px]"><p>{p.title}</p></div>
-                <div className="[word-break:break-word] font-['Kanit:Regular',sans-serif] text-[#555] text-[16px] leading-[26px]"><p>{p.desc}</p></div>
+            <div key={p.step} className="sr-target flex flex-col items-center text-center w-[300px] relative z-10">
+              <div className="w-[80px] h-[80px] rounded-full bg-[#121212] border-[4px] border-[#c9f31d] flex items-center justify-center mb-[32px] shadow-[0_0_30px_rgba(201,243,29,0.3)]">
+                <span className="font-['Teko:Bold',sans-serif] text-white text-[32px] leading-none mt-[4px]">{p.step}</span>
               </div>
-              {i < 2 && (
-                <div className="shrink-0 mt-[40px] text-[#ececec] text-[40px]">→</div>
-              )}
+              <div className="[word-break:break-word] font-['Teko:SemiBold',sans-serif] text-white text-[32px] uppercase leading-[1] mb-[16px]"><p>{p.title}</p></div>
+              <div className="[word-break:break-word] font-['Kanit:Regular',sans-serif] text-[#999] text-[16px] leading-[26px]"><p>{p.desc}</p></div>
             </div>
           ))}
         </div>
@@ -257,41 +244,37 @@ function AboutContent() {
       <div className="bg-[#f9f9f9] content-stretch flex flex-col items-start px-[76px] py-[100px] relative shrink-0 w-full">
         <div className="sr-target flex flex-col items-start gap-[16px] mb-[60px]">
           <div className="border border-[#ececec] px-[16px] py-[8px] rounded-[3px]">
-            <div className="[word-break:break-word] font-['Kanit:Medium',sans-serif] text-[#555] text-[14px] uppercase tracking-widest"><p>Customers Feedback</p></div>
+            <div className="[word-break:break-word] font-['Kanit:Medium',sans-serif] text-[#555] text-[14px] uppercase tracking-widest"><p>Testimonials</p></div>
           </div>
           <div className="[word-break:break-word] font-['Teko:Bold',sans-serif] font-bold leading-[0] text-[70px] text-black uppercase">
-            <p className="leading-[60px]">What Says Our <span className="bg-[#c9f31d] px-[8px]">Clients</span></p>
+            <p className="leading-[60px]">What Our <span className="bg-[#c9f31d] px-[8px]">Clients</span> Say</p>
           </div>
         </div>
-        <div className="grid w-full gap-[32px]" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)" }}>
-          {testimonials.map((t) => (
-            <div key={t.name} className="sr-target border border-[#ececec] rounded-[4px] p-[40px] flex flex-col gap-[24px] bg-white hover:border-[#c9f31d] transition-colors">
-              <div className="flex gap-[4px]">{[...Array(5)].map((_, i) => <span key={i} className="text-[#c9f31d] text-[20px]">★</span>)}</div>
-              <div className="[word-break:break-word] font-['Kanit:Regular',sans-serif] text-[#555] text-[18px] leading-[30px] flex-1"><p>"{t.quote}"</p></div>
-              <div className="flex items-center gap-[16px] border-t border-[#ececec] pt-[24px]">
-                <img src={t.logo} alt={t.name} className="w-[56px] h-[56px] rounded-full object-cover" />
-                <div>
-                  <div className="[word-break:break-word] font-['Teko:SemiBold',sans-serif] text-black text-[24px] uppercase leading-[1]"><p>{t.name}</p></div>
-                  <div className="[word-break:break-word] font-['Kanit:Regular',sans-serif] text-[#999] text-[14px]"><p>{t.type}</p></div>
-                </div>
+        <div className="flex gap-[32px] w-full">
+          {testimonials.map((t, i) => (
+            <div key={t.name} className="sr-target flex-1 bg-white border border-[#ececec] p-[40px] rounded-[4px] shadow-sm hover:border-[#c9f31d] transition-colors">
+              <img src={t.logo} alt={t.name} className="h-[40px] object-contain mb-[24px] opacity-80" />
+              <div className="[word-break:break-word] font-['Kanit:Regular',sans-serif] text-[#555] text-[18px] leading-[30px] italic mb-[32px]">
+                <p>&quot;{t.quote}&quot;</p>
+              </div>
+              <div>
+                <div className="[word-break:break-word] font-['Teko:SemiBold',sans-serif] text-black text-[24px] uppercase leading-[1]"><p>{t.name}</p></div>
+                <div className="[word-break:break-word] font-['Kanit:Regular',sans-serif] text-[#999] text-[14px] mt-[4px] uppercase tracking-wider"><p>{t.type}</p></div>
               </div>
             </div>
           ))}
         </div>
       </div>
 
-      {/* ── CTA BANNER ── */}
-      <div className="bg-[#121212] content-stretch flex flex-col items-center justify-center px-[76px] py-[120px] relative shrink-0 w-full">
-        <div className="sr-target flex flex-col items-center gap-[24px] text-center">
-          <div className="[word-break:break-word] font-['Teko:Bold',sans-serif] font-bold leading-[0] text-[120px] text-white uppercase">
-            <p className="leading-[100px]">Let&apos;s Get To</p>
-            <p className="leading-[100px]">Work <span className="bg-[#c9f31d] text-black px-[8px]">Together</span></p>
-          </div>
-          <div className="[word-break:break-word] font-['Kanit:Regular',sans-serif] text-[#999] text-[22px] leading-[36px] max-w-[700px] mt-[16px]">
-            <p>We are here to transform your digital presence. Let&apos;s collaborate and build something extraordinary together.</p>
-          </div>
-          <Link href="/contact" className="bg-[#c9f31d] content-stretch flex items-center gap-[10px] mt-[20px] px-[48px] py-[18px] relative rounded-[3px] shrink-0" data-name="Button">
-            <div className="[word-break:break-word] font-['Kanit:Medium',sans-serif] text-[#121212] text-[16px] uppercase tracking-widest"><p>Start a Project →</p></div>
+      {/* ── CTA ── */}
+      <div className="content-stretch flex items-center justify-between px-[76px] py-[80px] relative shrink-0 w-full bg-[#c9f31d]">
+        <div className="sr-target">
+          <div className="[word-break:break-word] font-['Teko:Bold',sans-serif] text-[#121212] text-[70px] uppercase leading-[1]"><p>Ready to build something great?</p></div>
+          <div className="[word-break:break-word] font-['Kanit:Regular',sans-serif] text-[#121212] text-[20px] mt-[8px]"><p>Let&apos;s turn your vision into a digital reality.</p></div>
+        </div>
+        <div className="sr-target">
+          <Link href="/contact" className="bg-[#121212] text-white px-[40px] py-[18px] rounded-[3px] font-['Kanit:Medium',sans-serif] text-[16px] uppercase tracking-widest hover:bg-white hover:text-[#121212] transition-colors flex items-center gap-[12px]">
+            Start a Project →
           </Link>
         </div>
       </div>

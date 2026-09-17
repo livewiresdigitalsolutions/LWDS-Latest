@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useRef } from "react";
 import PageWrapper, { useScrollReveal } from "@/components/PageWrapper";
+import { motion, Variants } from "framer-motion";
 
 const logoLight = "/Logos/logo - light(with text).png";
 const logoDark = "/Logos/logo - dark(with text).png";
@@ -48,8 +49,8 @@ function NavBar() {
         </div>
       </div>
       <div className="content-stretch flex flex-col items-end relative shrink-0 w-[260px]">
-        <Link href="/contact" className="bg-[#c9f31d] content-stretch flex items-center justify-center px-[24px] py-[10px] relative rounded-[3px] shrink-0">
-          <div className="[word-break:break-word] flex flex-col font-['Kanit:Medium',sans-serif] justify-center leading-[0] relative shrink-0 text-[#121212] text-[14px] uppercase whitespace-nowrap">
+        <Link href="/contact" className="bg-[#c9f31d] content-stretch flex items-center justify-center px-[24px] py-[10px] relative rounded-[3px] shrink-0 hover:bg-[#121212] hover:text-white transition-colors">
+          <div className="[word-break:break-word] flex flex-col font-['Kanit:Medium',sans-serif] justify-center leading-[0] relative shrink-0 text-inherit text-[14px] uppercase whitespace-nowrap">
             <p className="leading-[14px]">Get In Touch</p>
           </div>
         </Link>
@@ -60,7 +61,7 @@ function NavBar() {
 
 function FooterSection() {
   return (
-    <div className="bg-[#171717] content-stretch flex flex-col items-center justify-center px-[200px] relative shrink-0 w-full">
+    <div className="bg-[#171717] content-stretch flex flex-col items-center justify-center px-[200px] relative shrink-0 w-full z-50">
       <div className="content-stretch flex items-start max-w-[1520px] pb-[60px] pt-[80px] relative shrink-0 w-full gap-[80px]">
         <div className="flex flex-col items-start gap-[24px] shrink-0 w-[360px]">
           <img alt="LiveWires Digital Solutions" src={logoLight} className="h-[60px] w-auto" />
@@ -93,6 +94,29 @@ function TeamContent() {
   const containerRef = useRef<HTMLDivElement>(null);
   useScrollReveal(containerRef as React.RefObject<HTMLDivElement>);
 
+  const floatVariants: Variants = {
+    animate: {
+      y: [0, -15, 0],
+      transition: {
+        duration: 4,
+        repeat: Infinity,
+        ease: "easeInOut"
+      }
+    }
+  };
+
+  const floatDelayedVariants: Variants = {
+    animate: {
+      y: [0, -10, 0],
+      transition: {
+        duration: 5,
+        repeat: Infinity,
+        ease: "easeInOut",
+        delay: 1
+      }
+    }
+  };
+
   return (
     <div ref={containerRef} className="bg-white content-stretch flex flex-col items-start relative size-full">
       <NavBar />
@@ -103,7 +127,7 @@ function TeamContent() {
           <div className="bg-[#c9f31d] inline-flex items-center justify-center px-[24px] py-[10px] rounded-[48px] mb-[24px]">
             <div className="[word-break:break-word] font-['Kanit:Medium',sans-serif] text-[#121212] text-[14px] uppercase tracking-widest"><p>Team Members</p></div>
           </div>
-          <div className="[word-break:break-word] font-['Teko:Bold',sans-serif] font-bold leading-[0] text-[190px] text-black uppercase">
+          <div className="[word-break:break-word] font-['Teko:Bold',sans-serif] font-bold leading-[0] text-[190px] text-black uppercase flex flex-col gap-0">
             <p className="leading-[144.4px]">Our</p>
             <p className="leading-[144.4px]">Team</p>
           </div>
@@ -125,7 +149,7 @@ function TeamContent() {
         </div>
       </div>
 
-      {/* ── LEADERSHIP ── */}
+      {/* ── LEADERSHIP (BLOCK REVEAL) ── */}
       <div className="content-stretch flex flex-col items-start px-[76px] py-[100px] relative shrink-0 w-full bg-white">
         <div className="sr-target flex flex-col items-start gap-[16px] mb-[60px]">
           <div className="border border-[#ececec] px-[16px] py-[8px] rounded-[3px]">
@@ -136,16 +160,33 @@ function TeamContent() {
           </div>
         </div>
         <div className="grid w-full gap-[40px]" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)" }}>
-          {leadership.map((m) => (
-            <div key={m.name} className="sr-target group relative overflow-hidden rounded-[8px] shadow-lg">
+          {leadership.map((m, i) => (
+            <div key={m.name} className="group relative overflow-hidden rounded-[8px] shadow-lg">
+              {/* Image Container */}
               <div className="relative h-[520px] overflow-hidden">
-                <img src={m.img} className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500" alt={m.name} />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent pointer-events-none" />
-                <div className="absolute bottom-0 left-0 right-0 p-[32px]">
+                {/* Block Reveal Animation */}
+                <motion.div 
+                  initial={{ x: 0 }}
+                  whileInView={{ x: "100%" }}
+                  viewport={{ once: true, margin: "-100px" }}
+                  transition={{ duration: 0.8, ease: [0.77, 0, 0.175, 1], delay: i * 0.2 }}
+                  className="absolute inset-0 bg-[#121212] z-30"
+                />
+                
+                <img src={m.img} className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-700" alt={m.name} />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent pointer-events-none z-10" />
+                
+                <motion.div 
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: (i * 0.2) + 0.5 }}
+                  className="absolute bottom-0 left-0 right-0 p-[32px] z-20"
+                >
                   <div className="[word-break:break-word] font-['Teko:Bold',sans-serif] text-white text-[36px] uppercase leading-[1]"><p>{m.name}</p></div>
                   <div className="[word-break:break-word] font-['Kanit:Medium',sans-serif] text-[#c9f31d] text-[16px] mt-[6px]"><p>{m.role}</p></div>
                   <div className="[word-break:break-word] font-['Kanit:Regular',sans-serif] text-[#ccc] text-[15px] mt-[10px] leading-[22px]"><p>{m.desc}</p></div>
-                </div>
+                </motion.div>
               </div>
             </div>
           ))}
@@ -177,11 +218,16 @@ function TeamContent() {
         </div>
       </div>
 
-      {/* ── CULTURE SECTION ── */}
+      {/* ── CULTURE SECTION (CONTINUOUS FLOAT) ── */}
       <div className="bg-[#121212] content-stretch flex items-center px-[76px] py-[100px] relative shrink-0 w-full gap-[80px]">
-        <div className="sr-target shrink-0 w-[600px] h-[500px] relative overflow-hidden rounded-[259px]">
+        <motion.div 
+          variants={floatVariants}
+          animate="animate"
+          className="shrink-0 w-[600px] h-[500px] relative overflow-hidden rounded-[259px]"
+        >
           <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=800&q=80" className="w-full h-full object-cover" alt="Team culture" />
-        </div>
+        </motion.div>
+        
         <div className="sr-target flex flex-col items-start gap-[32px] flex-1">
           <div className="border border-[#c9f31d30] px-[16px] py-[8px] rounded-[3px]">
             <div className="[word-break:break-word] font-['Kanit:Medium',sans-serif] text-[#c9f31d] text-[14px] uppercase tracking-widest"><p>Work Culture</p></div>
@@ -196,9 +242,15 @@ function TeamContent() {
               ["🤝", "Collaborate", "Every project is a team effort — transparent, open, and inclusive."],
               ["🎯", "Client-Centric", "Your success is our success. We build solutions that solve real problems."],
               ["💡", "Always Learning", "We stay ahead with the latest tech, tools, and methodologies."],
-            ].map(([icon, title, desc]) => (
+            ].map(([icon, title, desc], i) => (
               <div key={title} className="flex items-start gap-[20px] pb-[24px] border-b border-[#ffffff10]">
-                <span className="text-[32px] shrink-0">{icon}</span>
+                <motion.span 
+                  variants={i % 2 === 0 ? floatVariants : floatDelayedVariants}
+                  animate="animate"
+                  className="text-[32px] shrink-0"
+                >
+                  {icon}
+                </motion.span>
                 <div>
                   <div className="[word-break:break-word] font-['Teko:SemiBold',sans-serif] text-white text-[26px] uppercase leading-[1]"><p>{title}</p></div>
                   <div className="[word-break:break-word] font-['Kanit:Regular',sans-serif] text-[#999] text-[16px] leading-[26px] mt-[6px]"><p>{desc}</p></div>
@@ -215,15 +267,15 @@ function TeamContent() {
           <div className="border border-[#ececec] px-[16px] py-[8px] rounded-[3px]">
             <div className="[word-break:break-word] font-['Kanit:Medium',sans-serif] text-[#555] text-[14px] uppercase tracking-widest"><p>Join Our Team</p></div>
           </div>
-          <div className="[word-break:break-word] font-['Teko:Bold',sans-serif] font-bold leading-[0] text-[100px] text-black uppercase text-center">
+          <div className="[word-break:break-word] font-['Teko:Bold',sans-serif] font-bold leading-[0] text-[100px] text-black uppercase text-center flex flex-col gap-0">
             <p className="leading-[84px]">We&apos;re Always</p>
             <p className="leading-[84px]">Looking for <span className="bg-[#c9f31d] px-[8px]">Talent</span></p>
           </div>
           <div className="[word-break:break-word] font-['Kanit:Regular',sans-serif] text-[#555] text-[22px] leading-[36px] max-w-[600px] mt-[16px]">
             <p>Think you&apos;d be a great fit? Drop us a message and let&apos;s talk about what you can bring to the team.</p>
           </div>
-          <a href="mailto:contact@livewiresdigitalsolutions.com" className="bg-[#121212] content-stretch flex items-center gap-[10px] mt-[20px] px-[48px] py-[18px] relative rounded-[3px] shrink-0" data-name="Button">
-            <div className="[word-break:break-word] font-['Kanit:Medium',sans-serif] text-white text-[16px] uppercase tracking-widest"><p>contact@livewiresdigitalsolutions.com →</p></div>
+          <a href="mailto:contact@livewiresdigitalsolutions.com" className="bg-[#121212] content-stretch flex items-center gap-[10px] mt-[20px] px-[48px] py-[18px] relative rounded-[3px] shrink-0 hover:bg-[#c9f31d] hover:text-[#121212] transition-colors">
+            <div className="[word-break:break-word] font-['Kanit:Medium',sans-serif] text-inherit text-[16px] uppercase tracking-widest"><p>contact@livewiresdigitalsolutions.com →</p></div>
           </a>
         </div>
       </div>

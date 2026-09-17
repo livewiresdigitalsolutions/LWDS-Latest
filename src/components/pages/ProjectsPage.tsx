@@ -1,8 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import { useRef } from "react";
+import { useRef, useEffect, useState } from "react";
 import PageWrapper, { useScrollReveal } from "@/components/PageWrapper";
+import { motion, useMotionValue, useSpring, Variants } from "framer-motion";
 
 const logoLight = "/Logos/logo - light(with text).png";
 const logoDark = "/Logos/logo - dark(with text).png";
@@ -25,7 +26,7 @@ const projects = [
 
 function NavBar() {
   return (
-    <div className="border-[#ececec] border-b border-solid content-stretch flex items-center pb-[20px] pt-[17px] px-[50px] relative shrink-0 w-full bg-white" data-name="HorizontalBorder">
+    <div className="border-[#ececec] border-b border-solid content-stretch flex items-center pb-[20px] pt-[17px] px-[50px] relative shrink-0 w-full bg-white z-[100]">
       <div className="content-stretch flex flex-col items-start relative shrink-0 w-[260px]">
         <Link href="/" className="content-stretch flex items-start relative shrink-0">
           <img alt="LiveWires Digital Solutions" className="h-[50px] w-auto" src={logoDark} />
@@ -45,8 +46,8 @@ function NavBar() {
         </div>
       </div>
       <div className="content-stretch flex flex-col items-end relative shrink-0 w-[260px]">
-        <Link href="/contact" className="bg-[#c9f31d] content-stretch flex items-center justify-center px-[24px] py-[10px] relative rounded-[3px] shrink-0">
-          <div className="[word-break:break-word] flex flex-col font-['Kanit:Medium',sans-serif] justify-center leading-[0] relative shrink-0 text-[#121212] text-[14px] uppercase whitespace-nowrap">
+        <Link href="/contact" className="bg-[#c9f31d] content-stretch flex items-center justify-center px-[24px] py-[10px] relative rounded-[3px] shrink-0 hover:bg-[#121212] hover:text-white transition-colors">
+          <div className="[word-break:break-word] flex flex-col font-['Kanit:Medium',sans-serif] justify-center leading-[0] relative shrink-0 text-inherit text-[14px] uppercase whitespace-nowrap">
             <p className="leading-[14px]">Get In Touch</p>
           </div>
         </Link>
@@ -57,7 +58,7 @@ function NavBar() {
 
 function FooterSection() {
   return (
-    <div className="bg-[#171717] content-stretch flex flex-col items-center justify-center px-[200px] relative shrink-0 w-full">
+    <div className="bg-[#171717] content-stretch flex flex-col items-center justify-center px-[200px] relative shrink-0 w-full z-50">
       <div className="content-stretch flex items-start max-w-[1520px] pb-[60px] pt-[80px] relative shrink-0 w-full gap-[80px]">
         <div className="flex flex-col items-start gap-[24px] shrink-0 w-[360px]">
           <img alt="LiveWires Digital Solutions" src={logoLight} className="h-[60px] w-auto" />
@@ -86,13 +87,83 @@ function FooterSection() {
   );
 }
 
+// ── CUSTOM MAGNETIC CURSOR ──
+function CustomCursor({ active }: { active: boolean }) {
+  const cursorX = useMotionValue(-100);
+  const cursorY = useMotionValue(-100);
+  
+  const springConfig = { damping: 25, stiffness: 400 };
+  const cursorXSpring = useSpring(cursorX, springConfig);
+  const cursorYSpring = useSpring(cursorY, springConfig);
+
+  useEffect(() => {
+    const moveCursor = (e: MouseEvent) => {
+      cursorX.set(e.clientX - 50); // offset by half width (100px / 2)
+      cursorY.set(e.clientY - 50);
+    };
+    window.addEventListener("mousemove", moveCursor);
+    return () => window.removeEventListener("mousemove", moveCursor);
+  }, []);
+
+  return (
+    <motion.div
+      className="fixed top-0 left-0 w-[100px] h-[100px] bg-[#c9f31d] rounded-full pointer-events-none z-[9999] flex items-center justify-center mix-blend-exclusion"
+      style={{
+        x: cursorXSpring,
+        y: cursorYSpring,
+      }}
+      initial={{ scale: 0, opacity: 0 }}
+      animate={{ 
+        scale: active ? 1 : 0, 
+        opacity: active ? 1 : 0 
+      }}
+      transition={{ duration: 0.3 }}
+    >
+      <span className="font-['Kanit:Medium',sans-serif] text-black text-[16px] tracking-widest">VIEW</span>
+    </motion.div>
+  );
+}
+
 function ProjectsContent() {
   const containerRef = useRef<HTMLDivElement>(null);
   useScrollReveal(containerRef as React.RefObject<HTMLDivElement>);
+  
+  const [cursorActive, setCursorActive] = useState(false);
+
+  // 3D Perspective Grid Animation Variants
+  const gridVariants: Variants = {
+    hidden: {},
+    show: {
+      transition: {
+        staggerChildren: 0.1,
+      }
+    }
+  };
+
+  const itemVariants: Variants = {
+    hidden: { 
+      opacity: 0, 
+      rotateX: 45, 
+      y: 100,
+      scale: 0.9 
+    },
+    show: { 
+      opacity: 1, 
+      rotateX: 0, 
+      y: 0,
+      scale: 1,
+      transition: {
+        type: "spring",
+        stiffness: 100,
+        damping: 20
+      }
+    }
+  };
 
   return (
     <div ref={containerRef} className="bg-white content-stretch flex flex-col items-start relative size-full">
       <NavBar />
+      <CustomCursor active={cursorActive} />
 
       {/* ── HERO ── */}
       <div className="relative shrink-0 w-full px-[76px] pt-[120px] pb-[100px]" style={{ background: "linear-gradient(135deg,#f8fce8 0%,#f0f5d6 40%,#eef7c2 60%,#f5f9e0 100%)" }}>
@@ -111,7 +182,7 @@ function ProjectsContent() {
       </div>
 
       {/* ── GLOBAL REACH STRIP ── */}
-      <div className="bg-[#c9f31d] content-stretch flex items-center justify-center py-[24px] px-[76px] relative shrink-0 w-full">
+      <div className="bg-[#c9f31d] content-stretch flex items-center justify-center py-[24px] px-[76px] relative shrink-0 w-full z-10">
         <div className="flex items-center gap-[60px]">
           {[["🇮🇳", "India"], ["🇩🇪", "Germany"], ["🇺🇸", "USA"], ["🇸🇦", "Saudi Arabia"], ["🇦🇪", "Dubai"]].map(([flag, name]) => (
             <div key={name} className="flex items-center gap-[10px]">
@@ -123,16 +194,32 @@ function ProjectsContent() {
       </div>
 
       {/* ── PROJECTS GRID ── */}
-      <div className="content-stretch flex flex-col items-start px-[76px] py-[100px] relative shrink-0 w-full bg-[#f9f9f9]">
+      <div 
+        className="content-stretch flex flex-col items-start px-[76px] py-[100px] relative shrink-0 w-full bg-[#f9f9f9]"
+        style={{ perspective: "1000px" }}
+      >
         <div className="sr-target mb-[60px]">
           <div className="[word-break:break-word] font-['Teko:Bold',sans-serif] font-bold leading-[0] text-[60px] text-black uppercase">
             <p className="leading-[54px]">All Projects <span className="text-[#999] text-[40px]">({projects.length})</span></p>
           </div>
         </div>
-        <div className="grid w-full gap-[24px]" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)" }}>
+        
+        <motion.div 
+          variants={gridVariants}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, margin: "-100px" }}
+          className="grid w-full gap-[24px]" 
+          style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", transformStyle: "preserve-3d" }}
+        >
           {projects.map((p) => {
             const card = (
-              <div className={`sr-target group relative h-[320px] overflow-hidden rounded-[4px] cursor-pointer ${p.comingSoon ? "ring-2 ring-[#c9f31d] ring-offset-2" : ""}`}>
+              <motion.div 
+                variants={itemVariants}
+                className={`group relative h-[320px] overflow-hidden rounded-[4px] cursor-none ${p.comingSoon ? "ring-2 ring-[#c9f31d] ring-offset-2" : ""}`}
+                onMouseEnter={() => setCursorActive(true)}
+                onMouseLeave={() => setCursorActive(false)}
+              >
                 {p.comingSoon && (
                   <div className="absolute top-[16px] left-[16px] z-20 bg-[#c9f31d] text-[#121212] text-[12px] font-['Kanit:Bold',sans-serif] px-[12px] py-[6px] rounded-[3px] flex items-center gap-[8px] shadow-lg">
                     <span className="inline-flex h-[8px] w-[8px] rounded-full bg-[#121212] animate-ping opacity-75"></span>
@@ -143,28 +230,26 @@ function ProjectsContent() {
                   📍 {p.country}
                 </div>
                 <img src={p.img} className="w-full h-full object-cover object-left-top transition-transform duration-700 group-hover:scale-110" alt={p.name} />
-                <div className="absolute bottom-0 left-0 right-0 bg-[#121212]/90 backdrop-blur-sm text-white p-[20px] flex justify-between items-center">
+                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-colors duration-500 z-10"></div>
+                <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent pt-[40px] text-white p-[20px] flex justify-between items-end z-20 transform translate-y-[20px] group-hover:translate-y-0 transition-transform duration-500">
                   <div>
-                    <div className="[word-break:break-word] font-['Teko:SemiBold',sans-serif] text-white text-[24px] uppercase leading-[1]"><p>{p.name}</p></div>
-                    <div className="[word-break:break-word] font-['Kanit:Regular',sans-serif] text-[#c9f31d] text-[14px] mt-[4px]"><p>{p.category}</p></div>
-                  </div>
-                  <div className="w-[40px] h-[40px] bg-[#c9f31d] rounded-full flex items-center justify-center text-[#121212] shrink-0 group-hover:rotate-45 transition-transform duration-300">
-                    <span className="text-[18px]">↗</span>
+                    <div className="[word-break:break-word] font-['Teko:SemiBold',sans-serif] text-white text-[32px] uppercase leading-[1] drop-shadow-md"><p>{p.name}</p></div>
+                    <div className="[word-break:break-word] font-['Kanit:Regular',sans-serif] text-[#c9f31d] text-[16px] mt-[4px]"><p>{p.category}</p></div>
                   </div>
                 </div>
-              </div>
+              </motion.div>
             );
             return p.href ? (
-              <a key={p.name} href={p.href} target="_blank" rel="noopener noreferrer">{card}</a>
+              <a key={p.name} href={p.href} target="_blank" rel="noopener noreferrer" className="cursor-none">{card}</a>
             ) : (
-              <div key={p.name}>{card}</div>
+              <div key={p.name} className="cursor-none">{card}</div>
             );
           })}
-        </div>
+        </motion.div>
       </div>
 
       {/* ── CTA ── */}
-      <div className="bg-[#121212] content-stretch flex flex-col items-center justify-center px-[76px] py-[120px] relative shrink-0 w-full">
+      <div className="bg-[#121212] content-stretch flex flex-col items-center justify-center px-[76px] py-[120px] relative shrink-0 w-full z-10">
         <div className="sr-target flex flex-col items-center gap-[24px] text-center">
           <div className="[word-break:break-word] font-['Teko:Bold',sans-serif] font-bold leading-[0] text-[120px] text-white uppercase">
             <p className="leading-[100px]">Start Your</p>
@@ -173,7 +258,7 @@ function ProjectsContent() {
           <div className="[word-break:break-word] font-['Kanit:Regular',sans-serif] text-[#999] text-[22px] leading-[36px] max-w-[600px] mt-[16px]">
             <p>Have a project in mind? Let&apos;s discuss how we can bring your vision to life.</p>
           </div>
-          <Link href="/contact" className="bg-[#c9f31d] content-stretch flex items-center gap-[10px] mt-[20px] px-[48px] py-[18px] relative rounded-[3px] shrink-0" data-name="Button">
+          <Link href="/contact" className="bg-[#c9f31d] content-stretch flex items-center gap-[10px] mt-[20px] px-[48px] py-[18px] relative rounded-[3px] shrink-0 hover:bg-white transition-colors">
             <div className="[word-break:break-word] font-['Kanit:Medium',sans-serif] text-[#121212] text-[16px] uppercase tracking-widest"><p>Get In Touch →</p></div>
           </Link>
         </div>

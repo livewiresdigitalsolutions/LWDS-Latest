@@ -4,24 +4,36 @@ import { useEffect, useRef, useState } from "react";
 
 const DESIGN_WIDTH = 1920;
 
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useGSAP } from "@gsap/react";
+
+if (typeof window !== "undefined") {
+  gsap.registerPlugin(ScrollTrigger, useGSAP);
+}
+
 export function useScrollReveal(containerRef: React.RefObject<HTMLDivElement | null>) {
-  useEffect(() => {
-    const container = containerRef.current;
-    if (!container) return;
-    const io = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((e) => {
-          if (e.isIntersecting) {
-            (e.target as HTMLElement).classList.add("sr-visible");
-            io.unobserve(e.target);
-          }
-        });
-      },
-      { threshold: 0.08, rootMargin: "0px 0px -40px 0px" }
-    );
-    container.querySelectorAll(".sr-target").forEach((t) => io.observe(t));
-    return () => io.disconnect();
-  }, [containerRef]);
+  useGSAP(() => {
+    if (!containerRef.current) return;
+    const targets = containerRef.current.querySelectorAll(".sr-target");
+    
+    targets.forEach((target) => {
+      gsap.fromTo(
+        target,
+        { autoAlpha: 0, y: 40 },
+        {
+          autoAlpha: 1,
+          y: 0,
+          duration: 1,
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: target,
+            start: "top 90%",
+          },
+        }
+      );
+    });
+  }, { scope: containerRef });
 }
 
 export default function PageWrapper({ children }: { children: React.ReactNode }) {
