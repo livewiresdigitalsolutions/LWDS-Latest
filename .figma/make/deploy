@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+rm -rf .next
+NODE_ENV=production pnpm run build
+[[ -d ".next" ]] || { echo "Expected build output at .next" >&2; exit 1; }
+figma make deploy --build-dir .next --adapter nextjs

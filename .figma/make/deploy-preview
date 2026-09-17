@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+rm -rf .next
+NODE_ENV=production pnpm run build
+figma make deploy-preview --build-dir .next --adapter nextjs

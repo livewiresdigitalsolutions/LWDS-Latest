@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+exec pnpm exec next dev -p "${PORT:-3000}" --hostname 0.0.0.0

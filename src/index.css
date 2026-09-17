@@ -1,0 +1,323 @@
+@import 'tailwindcss';
+
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+
+#root {
+  width: 100%;
+}
+
+/* ═══════════════════════════════════════════════════
+   KEYFRAMES
+═══════════════════════════════════════════════════ */
+
+@keyframes slideDown {
+  from { transform: translateY(-100%); opacity: 0; }
+  to   { transform: translateY(0);     opacity: 1; }
+}
+
+@keyframes fadeUp {
+  from { transform: translateY(48px); opacity: 0; }
+  to   { transform: translateY(0);    opacity: 1; }
+}
+
+@keyframes fadeLeft {
+  from { transform: translateX(-60px); opacity: 0; }
+  to   { transform: translateX(0);     opacity: 1; }
+}
+
+@keyframes fadeRight {
+  from { transform: translateX(60px); opacity: 0; }
+  to   { transform: translateX(0);    opacity: 1; }
+}
+
+@keyframes scaleIn {
+  from { transform: scale(0.86); opacity: 0; }
+  to   { transform: scale(1);    opacity: 1; }
+}
+
+@keyframes clipReveal {
+  from { clip-path: inset(0 100% 0 0); }
+  to   { clip-path: inset(0 0% 0 0);   }
+}
+
+@keyframes revealUp {
+  from { clip-path: inset(100% 0 0 0); opacity: 0; }
+  to   { clip-path: inset(0 0 0 0);    opacity: 1; }
+}
+
+@keyframes rotateBadge {
+  from { transform: rotate(-12deg) scale(0.7); opacity: 0; }
+  to   { transform: rotate(0deg)   scale(1);   opacity: 1; }
+}
+
+@keyframes pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(200, 243, 29, 0.4); }
+  50%       { box-shadow: 0 0 0 20px rgba(200, 243, 29, 0); }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-10px); }
+}
+
+@keyframes shimmer {
+  0%   { background-position: -200% center; }
+  100% { background-position:  200% center; }
+}
+
+@keyframes spinSlow {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+@keyframes marqueeLTR {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+/* ═══════════════════════════════════════════════════
+   PAGE ENTRANCE
+═══════════════════════════════════════════════════ */
+
+.site-entrance {
+  animation: fadeUp 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* ═══════════════════════════════════════════════════
+   NAV — slide in from top on load
+═══════════════════════════════════════════════════ */
+
+[data-name="HorizontalBorder"] {
+  animation: slideDown 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* ═══════════════════════════════════════════════════
+   HERO — giant heading clip-path reveal, staggered
+═══════════════════════════════════════════════════ */
+
+[data-name="Heading 2 - We are Skilled in"] > div:nth-child(1) {
+  animation: revealUp 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.3s both;
+}
+[data-name="Heading 2 - We are Skilled in"] > div:nth-child(2) {
+  animation: revealUp 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.45s both;
+}
+[data-name="Heading 2 - We are Skilled in"] > div:nth-child(3) {
+  animation: revealUp 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.6s both;
+}
+[data-name="Heading 2 - We are Skilled in"] > div:nth-child(4) {
+  animation: revealUp 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.72s both;
+}
+
+[data-name="Heading 2 - and"] {
+  animation: clipReveal 1.1s cubic-bezier(0.22, 1, 0.36, 1) 0.5s both;
+}
+
+/* Yellow pill / badge */
+[data-name="Background"] {
+  animation: rotateBadge 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) 0.8s both;
+}
+
+/* scroll indicator */
+[data-name="scroll.png"],
+[data-name="arrow-down.png"] {
+  animation: float 2.4s ease-in-out 1.5s infinite;
+}
+
+/* ═══════════════════════════════════════════════════
+   SCROLL-REVEAL — sr-target / sr-visible system
+═══════════════════════════════════════════════════ */
+
+.sr-target {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+              transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.sr-target.sr-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ═══════════════════════════════════════════════════
+   GREEN BANNER — slide in from left
+═══════════════════════════════════════════════════ */
+
+.bg-\[\#c9f31d\] {
+  animation: fadeLeft 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-play-state: paused;
+}
+
+/* ═══════════════════════════════════════════════════
+   IMAGE HOVER LIFT + SCALE
+═══════════════════════════════════════════════════ */
+
+[data-name^="Link:css-transform"],
+[data-name^="Link"] img {
+  transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+              box-shadow 0.45s ease;
+}
+[data-name^="Link:css-transform"]:hover {
+  transform: translateY(-6px) scale(1.015);
+  box-shadow: 0 24px 48px rgba(0, 0, 0, 0.18);
+  z-index: 10;
+}
+
+/* ═══════════════════════════════════════════════════
+   NAV LINKS — underline hover
+═══════════════════════════════════════════════════ */
+
+[data-name="Item"] > div,
+[data-name="Component 3"] > div {
+  position: relative;
+  cursor: pointer;
+}
+[data-name="Item"] > div::after,
+[data-name="Component 3"] > div::after {
+  content: "";
+  position: absolute;
+  bottom: 6px;
+  left: 15px;
+  right: 15px;
+  height: 2px;
+  background: #c8f31d;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+[data-name="Item"] > div:hover::after,
+[data-name="Component 3"] > div:hover::after {
+  transform: scaleX(1);
+}
+
+/* ═══════════════════════════════════════════════════
+   LOGO ICONS — stagger scale-in
+═══════════════════════════════════════════════════ */
+
+[data-name*="wordpress"],
+[data-name*="react"],
+[data-name*="node"],
+[data-name*="flutter"],
+[data-name*="redux"] {
+  animation: scaleIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+  animation-play-state: paused;
+}
+
+/* ═══════════════════════════════════════════════════
+   TESTIMONIAL QUOTE MARK — spin in
+═══════════════════════════════════════════════════ */
+
+[data-name*="quote"] {
+  transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+[data-name*="quote"]:hover {
+  transform: rotate(15deg) scale(1.1);
+}
+
+/* ═══════════════════════════════════════════════════
+   TEAM CARDS — tilt on hover
+═══════════════════════════════════════════════════ */
+
+[data-name*="Team"] img,
+[data-name*="team"] img {
+  transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+[data-name*="Team"]:hover img,
+[data-name*="team"]:hover img {
+  transform: scale(1.06);
+}
+
+/* ═══════════════════════════════════════════════════
+   CTA BUTTONS — pulse glow on hover
+═══════════════════════════════════════════════════ */
+
+[data-name="Button"]:hover {
+  animation: pulse 1.2s ease-out infinite;
+}
+
+/* ═══════════════════════════════════════════════════
+   FOOTER HERO TEXT — clip reveal on scroll
+═══════════════════════════════════════════════════ */
+
+[data-name="Background"]:has([data-name="Heading 2 - 🖐️ Hello !"]) {
+  overflow: hidden;
+}
+
+/* ═══════════════════════════════════════════════════
+   SECTION STAT NUMBERS — shimmer while loading
+═══════════════════════════════════════════════════ */
+
+[data-counter] {
+  background: linear-gradient(90deg, currentColor 40%, #c8f31d 50%, currentColor 60%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  animation: shimmer 1.5s linear 0.5s 3;
+}
+
+/* ═══════════════════════════════════════════════════
+   SECTION FADE-UP — generic section containers
+═══════════════════════════════════════════════════ */
+
+[data-name="HorizontalBorder1"],
+[data-name="HorizontalBorder2"],
+[data-name="HorizontalBorder3"],
+[data-name="HorizontalBorder4"],
+[data-name="HorizontalBorder5"],
+[data-name="HorizontalBorder6"],
+[data-name="HorizontalBorder7"] {
+  transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@font-face {
+  font-family: "Teko:Bold";
+  font-style: normal;
+  font-weight: 700;
+  src: url("https://static.figma.com/font/Teko_wght__1") format("woff2");
+}
+
+@font-face {
+  font-family: "Teko:SemiBold";
+  font-style: normal;
+  font-weight: 600;
+  src: url("https://static.figma.com/font/Teko_wght__1") format("woff2");
+}
+
+@font-face {
+  font-family: "Teko:Regular";
+  font-style: normal;
+  font-weight: 400;
+  src: url("https://static.figma.com/font/Teko_wght__1") format("woff2");
+}
+
+@font-face {
+  font-family: "Kanit:Regular";
+  font-style: normal;
+  font-weight: 400;
+  src: url("https://static.figma.com/font/Kanit-Regular_2") format("woff2");
+}
+
+@font-face {
+  font-family: "Kanit:Medium";
+  font-style: normal;
+  font-weight: 500;
+  src: url("https://static.figma.com/font/Kanit-Medium_2") format("woff2");
+}
+
+@font-face {
+  font-family: "Kanit:Bold";
+  font-style: normal;
+  font-weight: 700;
+  src: url("https://static.figma.com/font/Kanit-Bold_2") format("woff2");
+}
+
+@font-face {
+  font-family: "Kanit:Light";
+  font-style: normal;
+  font-weight: 300;
+  src: url("https://static.figma.com/font/Kanit-Light_2") format("woff2");
+}
