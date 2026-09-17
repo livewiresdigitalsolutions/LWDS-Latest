@@ -35,16 +35,28 @@ export default function PageWrapper({ children }: { children: React.ReactNode })
   useEffect(() => {
     function update() {
       if (!outerRef.current || !innerRef.current) return;
-      const vw = outerRef.current.offsetWidth || window.innerWidth;
+      const vw = window.innerWidth;
       const s = Math.min(1, vw / DESIGN_WIDTH);
       setScale(s);
       setOuterHeight(innerRef.current.scrollHeight * s);
     }
     update();
-    const ro = new ResizeObserver(update);
-    if (outerRef.current) ro.observe(outerRef.current);
+    
+    let timeoutId: NodeJS.Timeout;
+    const debouncedUpdate = () => {
+      clearTimeout(timeoutId);
+      timeoutId = setTimeout(update, 50);
+    };
+
+    const ro = new ResizeObserver(debouncedUpdate);
     if (innerRef.current) ro.observe(innerRef.current);
-    return () => ro.disconnect();
+    window.addEventListener("resize", debouncedUpdate);
+    
+    return () => {
+      ro.disconnect();
+      window.removeEventListener("resize", debouncedUpdate);
+      clearTimeout(timeoutId);
+    };
   }, []);
 
   return (
