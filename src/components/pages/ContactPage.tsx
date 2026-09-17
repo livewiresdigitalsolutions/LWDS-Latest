@@ -166,7 +166,7 @@ function ContactContent() {
           
           <div className="[word-break:break-word] font-['Teko:Bold',sans-serif] font-bold leading-[0] text-[190px] text-black uppercase flex flex-col items-start">
             <motion.p style={{ x: xTrans1, y: yTrans1 }} className="leading-[144.4px]">Let&apos;s</motion.p>
-            <motion.p style={{ x: xTrans2, y: yTrans2 }} className="leading-[144.4px] text-transparent" style={{ WebkitTextStroke: "4px black", x: xTrans2, y: yTrans2 }}>Talk</motion.p>
+            <motion.p style={{ WebkitTextStroke: "4px black", x: xTrans2, y: yTrans2 }} className="leading-[144.4px] text-transparent">Talk</motion.p>
           </div>
           
           <div className="[word-break:break-word] font-['Kanit:Regular',sans-serif] text-[#555] text-[24px] leading-[36px] max-w-[700px] mt-[32px]">
