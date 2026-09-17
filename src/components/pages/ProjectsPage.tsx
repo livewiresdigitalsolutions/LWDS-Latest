@@ -34,7 +34,7 @@ function NavBar() {
       </div>
       <div className="content-stretch flex flex-col items-start justify-center relative shrink-0 w-[1300px]">
         <div className="content-start flex flex-wrap gap-0 items-start justify-center relative shrink-0 w-full">
-          {[["Home", "/"], ["About Us", "/about"], ["Projects", "/projects"], ["Team", "/team"], ["Contact", "/contact"]].map(([label, href]) => (
+          {[["Home", "/"], ["About Us", "/about"], ["Services", "/services"], ["Projects", "/projects"], ["Team", "/team"], ["Contact", "/contact"]].map(([label, href]) => (
             <div key={label} className="h-[49.25px] min-w-[140px] relative shrink-0" data-name="Item">
               <Link href={href} className="content-stretch flex items-center pb-[9.75px] pt-[9.5px] px-[15px] relative size-full">
                 <div className="[word-break:break-word] flex flex-col font-['Teko:Regular',sans-serif] font-normal justify-center leading-[0] relative shrink-0 text-[#121212] text-[22px] uppercase whitespace-nowrap">
@@ -66,7 +66,7 @@ function FooterSection() {
         </div>
         <div className="flex flex-col items-start gap-[16px] shrink-0 w-[200px]">
           <div className="[word-break:break-word] font-['Teko:SemiBold',sans-serif] text-white text-[28px] uppercase leading-[1]"><p>Quick Links</p></div>
-          {[["Home", "/"], ["About Us", "/about"], ["Projects", "/projects"], ["Team", "/team"], ["Contact", "/contact"]].map(([label, href]) => (
+          {[["Home", "/"], ["About Us", "/about"], ["Services", "/services"], ["Projects", "/projects"], ["Team", "/team"], ["Contact", "/contact"]].map(([label, href]) => (
             <Link key={label} href={href} className="[word-break:break-word] font-['Kanit:Regular',sans-serif] text-[#999] text-[16px] leading-[26px] hover:text-[#c9f31d] transition-colors"><p>{label}</p></Link>
           ))}
         </div>

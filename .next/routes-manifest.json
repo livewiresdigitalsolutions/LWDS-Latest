@@ -51,6 +51,12 @@
       "namedRegex": "^/projects(?:/)?$"
     },
     {
+      "page": "/services",
+      "regex": "^/services(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/services(?:/)?$"
+    },
+    {
       "page": "/team",
       "regex": "^/team(?:/)?$",
       "routeKeys": {},

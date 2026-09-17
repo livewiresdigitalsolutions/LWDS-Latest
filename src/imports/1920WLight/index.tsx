@@ -246,6 +246,17 @@ function List() {
       <div className="h-[49.25px] min-w-[118.36000061035156px] relative shrink-0" data-name="Component 3">
         <div className="content-stretch flex flex-col items-start min-w-[inherit] relative size-full">
           <div className="relative shrink-0" data-name="Component 4">
+            <NextLink href="/services" className="content-stretch flex items-start pb-[9.75px] pt-[9.5px] px-[15px] relative size-full">
+              <div className="[word-break:break-word] flex flex-col font-['Teko:Regular',sans-serif] font-normal justify-center leading-[0] relative shrink-0 text-[#121212] text-[0px] uppercase whitespace-nowrap">
+                <p className="leading-[29.26px] text-[22px]">Services</p>
+              </div>
+            </NextLink>
+          </div>
+        </div>
+      </div>
+      <div className="h-[49.25px] min-w-[118.36000061035156px] relative shrink-0" data-name="Component 3">
+        <div className="content-stretch flex flex-col items-start min-w-[inherit] relative size-full">
+          <div className="relative shrink-0" data-name="Component 4">
             <NextLink href="/projects" className="content-stretch flex items-start pb-[9.75px] pt-[9.5px] px-[15px] relative size-full">
               <div className="[word-break:break-word] flex flex-col font-['Teko:Regular',sans-serif] font-normal justify-center leading-[0] relative shrink-0 text-[#121212] text-[0px] uppercase whitespace-nowrap">
                 <p className="leading-[29.26px] text-[22px]">Projects</p>
