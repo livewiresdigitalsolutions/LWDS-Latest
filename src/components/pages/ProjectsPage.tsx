@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useRef, useEffect, useState } from "react";
 import PageWrapper, { useScrollReveal } from "@/components/PageWrapper";
-import { motion, useMotionValue, useSpring, Variants } from "framer-motion";
+import { AnimatePresence, motion, useMotionValue, useSpring, Variants } from "framer-motion";
 
 const logoLight = "/Logos/logo - light(with text).png";
 const logoDark = "/Logos/logo - dark(with text).png";
@@ -124,21 +124,16 @@ function CustomCursor({ active }: { active: boolean }) {
   );
 }
 
+const filters = ["All", "India", "Germany", "USA", "Saudi Arabia", "Dubai"];
+
 function ProjectsContent() {
   const containerRef = useRef<HTMLDivElement>(null);
   useScrollReveal(containerRef as React.RefObject<HTMLDivElement>);
-  
-  const [cursorActive, setCursorActive] = useState(false);
 
-  // 3D Perspective Grid Animation Variants
-  const gridVariants: Variants = {
-    hidden: {},
-    show: {
-      transition: {
-        staggerChildren: 0.1,
-      }
-    }
-  };
+  const [cursorActive, setCursorActive] = useState(false);
+  const [activeFilter, setActiveFilter] = useState("All");
+
+  const filteredProjects = activeFilter === "All" ? projects : projects.filter((p) => p.country === activeFilter);
 
   const itemVariants: Variants = {
     hidden: { 
@@ -198,54 +193,80 @@ function ProjectsContent() {
         className="content-stretch flex flex-col items-start px-[76px] py-[100px] relative shrink-0 w-full bg-[#f9f9f9]"
         style={{ perspective: "1000px" }}
       >
-        <div className="sr-target mb-[60px]">
+        <div className="sr-target mb-[32px] flex flex-wrap items-center justify-between gap-[24px] w-full">
           <div className="[word-break:break-word] font-['Teko:Bold',sans-serif] font-bold leading-[0] text-[60px] text-black uppercase">
-            <p className="leading-[54px]">All Projects <span className="text-[#999] text-[40px]">({projects.length})</span></p>
+            <p className="leading-[54px]">{activeFilter === "All" ? "All Projects" : `${activeFilter} Projects`} <span className="text-[#999] text-[40px]">({filteredProjects.length})</span></p>
+          </div>
+
+          <div className="flex flex-wrap items-center gap-[10px]">
+            {filters.map((f) => (
+              <button
+                key={f}
+                type="button"
+                onClick={() => setActiveFilter(f)}
+                className={`font-['Kanit:Medium',sans-serif] text-[13px] uppercase tracking-widest px-[20px] py-[10px] rounded-[24px] border transition-colors cursor-pointer ${
+                  activeFilter === f
+                    ? "bg-[#c9f31d] border-[#c9f31d] text-[#121212]"
+                    : "bg-white border-[#ececec] text-[#555] hover:border-[#c9f31d] hover:text-[#121212]"
+                }`}
+              >
+                {f}
+              </button>
+            ))}
           </div>
         </div>
-        
-        <motion.div 
-          variants={gridVariants}
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, margin: "-100px" }}
-          className="grid w-full gap-[24px]" 
+
+        <motion.div
+          layout
+          className="grid w-full gap-[24px]"
           style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", transformStyle: "preserve-3d" }}
         >
-          {projects.map((p) => {
-            const card = (
-              <motion.div 
-                variants={itemVariants}
-                className={`group relative h-[320px] overflow-hidden rounded-[4px] cursor-none ${p.comingSoon ? "ring-2 ring-[#c9f31d] ring-offset-2" : ""}`}
-                onMouseEnter={() => setCursorActive(true)}
-                onMouseLeave={() => setCursorActive(false)}
-              >
-                {p.comingSoon && (
-                  <div className="absolute top-[16px] left-[16px] z-20 bg-[#c9f31d] text-[#121212] text-[12px] font-['Kanit:Bold',sans-serif] px-[12px] py-[6px] rounded-[3px] flex items-center gap-[8px] shadow-lg">
-                    <span className="inline-flex h-[8px] w-[8px] rounded-full bg-[#121212] animate-ping opacity-75"></span>
-                    COMING SOON
+          <AnimatePresence mode="popLayout">
+            {filteredProjects.map((p) => {
+              const card = (
+                <motion.div
+                  layout
+                  variants={itemVariants}
+                  initial="hidden"
+                  animate="show"
+                  exit={{ opacity: 0, scale: 0.9, transition: { duration: 0.25 } }}
+                  className={`group relative h-[320px] overflow-hidden rounded-[4px] cursor-none ${p.comingSoon ? "ring-2 ring-[#c9f31d] ring-offset-2" : ""}`}
+                  onMouseEnter={() => setCursorActive(true)}
+                  onMouseLeave={() => setCursorActive(false)}
+                >
+                  {p.comingSoon && (
+                    <div className="absolute top-[16px] left-[16px] z-20 bg-[#c9f31d] text-[#121212] text-[12px] font-['Kanit:Bold',sans-serif] px-[12px] py-[6px] rounded-[3px] flex items-center gap-[8px] shadow-lg">
+                      <span className="inline-flex h-[8px] w-[8px] rounded-full bg-[#121212] animate-ping opacity-75"></span>
+                      COMING SOON
+                    </div>
+                  )}
+                  <div className="absolute top-[16px] right-[16px] z-20 bg-black/50 backdrop-blur-sm text-white text-[12px] font-['Kanit:Medium',sans-serif] px-[12px] py-[6px] rounded-[3px] flex items-center gap-[6px] uppercase">
+                    📍 {p.country}
                   </div>
-                )}
-                <div className="absolute top-[16px] right-[16px] z-20 bg-black/50 backdrop-blur-sm text-white text-[12px] font-['Kanit:Medium',sans-serif] px-[12px] py-[6px] rounded-[3px] flex items-center gap-[6px] uppercase">
-                  📍 {p.country}
-                </div>
-                <img src={p.img} className="w-full h-full object-cover object-left-top transition-transform duration-700 group-hover:scale-110" alt={p.name} />
-                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-colors duration-500 z-10"></div>
-                <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent pt-[40px] text-white p-[20px] flex justify-between items-end z-20 transform translate-y-[20px] group-hover:translate-y-0 transition-transform duration-500">
-                  <div>
-                    <div className="[word-break:break-word] font-['Teko:SemiBold',sans-serif] text-white text-[32px] uppercase leading-[1] drop-shadow-md"><p>{p.name}</p></div>
-                    <div className="[word-break:break-word] font-['Kanit:Regular',sans-serif] text-[#c9f31d] text-[16px] mt-[4px]"><p>{p.category}</p></div>
+                  <img src={p.img} className="w-full h-full object-cover object-left-top transition-transform duration-700 group-hover:scale-110" alt={p.name} />
+                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-colors duration-500 z-10"></div>
+                  <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent pt-[40px] text-white p-[20px] flex justify-between items-end z-20 transform translate-y-[20px] group-hover:translate-y-0 transition-transform duration-500">
+                    <div>
+                      <div className="[word-break:break-word] font-['Teko:SemiBold',sans-serif] text-white text-[32px] uppercase leading-[1] drop-shadow-md"><p>{p.name}</p></div>
+                      <div className="[word-break:break-word] font-['Kanit:Regular',sans-serif] text-[#c9f31d] text-[16px] mt-[4px]"><p>{p.category}</p></div>
+                    </div>
                   </div>
-                </div>
-              </motion.div>
-            );
-            return p.href ? (
-              <a key={p.name} href={p.href} target="_blank" rel="noopener noreferrer" className="cursor-none">{card}</a>
-            ) : (
-              <div key={p.name} className="cursor-none">{card}</div>
-            );
-          })}
+                </motion.div>
+              );
+              return p.href ? (
+                <a key={p.name} href={p.href} target="_blank" rel="noopener noreferrer" className="cursor-none">{card}</a>
+              ) : (
+                <div key={p.name} className="cursor-none">{card}</div>
+              );
+            })}
+          </AnimatePresence>
         </motion.div>
+
+        {filteredProjects.length === 0 && (
+          <div className="w-full py-[60px] text-center">
+            <p className="font-['Kanit:Regular',sans-serif] text-[#999] text-[18px]">No projects found for this filter yet.</p>
+          </div>
+        )}
       </div>
 
       {/* ── CTA ── */}

@@ -148,7 +148,7 @@ function AboutContent() {
             <div className="[word-break:break-word] font-['Kanit:Medium',sans-serif] text-[#121212] text-[14px] uppercase tracking-widest"><p>About LiveWires</p></div>
           </div>
           
-          <div className="[word-break:break-word] font-['Teko:Bold',sans-serif] font-bold leading-[0] text-[190px] text-black uppercase flex overflow-hidden h-[160px] items-end">
+          <div className="[word-break:break-word] font-['Teko:Bold',sans-serif] font-bold leading-[190px] text-[190px] text-black uppercase flex overflow-hidden h-[190px] items-end">
             {heroText.split("").map((char, i) => (
               <motion.span
                 key={i}

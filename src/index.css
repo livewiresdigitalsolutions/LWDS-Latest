@@ -142,9 +142,8 @@ html, body {
    GREEN BANNER — slide in from left
 ═══════════════════════════════════════════════════ */
 
-.bg-\[\#c9f31d\] {
+.bg-\[\#c9f31d\]:not(.pointer-events-none) {
   animation: fadeLeft 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
-  animation-play-state: paused;
 }
 
 /* ═══════════════════════════════════════════════════
@@ -199,7 +198,6 @@ html, body {
 [data-name*="flutter"],
 [data-name*="redux"] {
   animation: scaleIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) both;
-  animation-play-state: paused;
 }
 
 /* ═══════════════════════════════════════════════════

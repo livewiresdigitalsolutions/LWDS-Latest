@@ -352,19 +352,9 @@ function HorizontalBorder() {
 
 function Heading2WeAreSkilledIn() {
   return (
-    <div className="[word-break:break-word] font-['Teko:Bold',sans-serif] font-bold h-[288.81px] leading-[0] relative shrink-0 text-[190px] text-black uppercase w-full" data-name="Heading 2 - We are Skilled in">
-      <div className="-translate-y-1/2 absolute flex flex-col justify-center left-0 top-[72px] w-[245.187px]">
-        <p className="leading-[144.4px]">We</p>
-      </div>
-      <div className="-translate-y-1/2 absolute flex flex-col justify-center left-[282.17px] top-[72px] w-[287.11px]">
-        <p className="leading-[144.4px]">Will</p>
-      </div>
-      <div className="-translate-y-1/2 absolute flex flex-col justify-center left-0 top-[216.41px] w-[586.114px]">
-        <p className="leading-[144.4px]">Grow</p>
-      </div>
-      <div className="-translate-y-1/2 absolute flex flex-col justify-center left-[623.64px] top-[216.41px] w-[150.116px]">
-        <p className="leading-[144.4px]">Your</p>
-      </div>
+    <div className="[word-break:break-word] font-['Teko:Bold',sans-serif] font-bold relative shrink-0 text-[190px] text-black uppercase w-full" data-name="Heading 2 - We Will Grow Your">
+      <p className="leading-[144.4px]">We Will</p>
+      <p className="leading-[144.4px]">Grow Your</p>
     </div>
   );
 }
@@ -527,7 +517,7 @@ function Container42() {
     <div className="content-stretch flex flex-col items-start pl-[35.07px] pr-[58.88px] relative shrink-0" data-name="Container">
       <div className="flex h-[114px] items-center justify-center relative shrink-0 w-[20px]">
         <div className="-rotate-90 flex-none">
-          <div className="[word-break:break-word] flex flex-col font-['Teko:Regular',sans-serif] font-normal justify-center leading-[0] relative text-[30px] text-black whitespace-nowrap">
+          <div className="[word-break:break-word] flex flex-col font-['Teko:Regular',sans-serif] font-normal justify-center leading-[0] relative text-[19px] text-black whitespace-nowrap">
             <p className="leading-[19.8px]">The Next Level</p>
           </div>
         </div>
@@ -673,67 +663,8 @@ function Container48() {
 
 function WeAreAFullServiceDigitalAgencyThatBuildsFascinatingUserExperiencesOurTeamCreatesAndExceptionalUiDesignandFunctionality() {
   return (
-    <div className="[word-break:break-word] font-['Kanit:Regular',sans-serif] h-[104px] leading-[0] not-italic relative shrink-0 text-[#555] text-[20px] w-full" data-name="We are a full-service digital agency that builds fascinating user experiences. our team creates and exceptional UI designand functionality.">
-      <div className="-translate-y-1/2 absolute flex flex-col justify-center left-0 top-[13px] w-[27.106px]">
-        <p className="leading-[26px]">We</p>
-      </div>
-      <div className="-translate-y-1/2 absolute flex flex-col justify-center left-[32.75px] top-[13px] w-[29.177px]">
-        <p className="leading-[26px]">are</p>
-      </div>
-      <div className="-translate-y-1/2 absolute flex flex-col justify-center left-[66.25px] top-[13px] w-[11.12px]">
-        <p className="leading-[26px]">{`a `}</p>
-      </div>
-      <div className="-translate-y-1/2 absolute flex flex-col justify-center left-[81.82px] top-[13px] w-[102.179px]">
-        <p className="leading-[26px]">Chennai-based</p>
-      </div>
-      <div className="-translate-y-1/2 absolute flex flex-col justify-center left-[190.5px] top-[13px] w-[58.179px]">
-        <p className="leading-[26px]">digital</p>
-      </div>
-      <div className="-translate-y-1/2 absolute flex flex-col justify-center left-[253px] top-[13px] w-[65.109px]">
-        <p className="leading-[26px]">agency</p>
-      </div>
-      <div className="-translate-y-1/2 absolute flex flex-col justify-center left-[323.42px] top-[13px] w-[37.114px]">
-        <p className="leading-[26px]">of</p>
-      </div>
-      <div className="-translate-y-1/2 absolute flex flex-col justify-center left-0 top-[39px] w-[56.165px]">
-        <p className="leading-[26px]">passionate</p>
-      </div>
-      <div className="-translate-y-1/2 absolute flex flex-col justify-center left-[60.05px] top-[39px] w-[99.171px]">
-        <p className="leading-[26px]">developers,</p>
-      </div>
-      <div className="-translate-y-1/2 absolute flex flex-col justify-center left-[165.35px] top-[39px] w-[39.118px]">
-        <p className="leading-[26px]">designers,</p>
-      </div>
-      <div className="-translate-y-1/2 absolute flex flex-col justify-center left-[208.74px] top-[39px] w-[111.185px]">
-        <p className="leading-[26px]">and</p>
-      </div>
-      <div className="-translate-y-1/2 absolute flex flex-col justify-center left-[325.61px] top-[39px] w-[31.17px]">
-        <p className="leading-[26px]">problem-solvers</p>
-      </div>
-      <div className="-translate-y-1/2 absolute flex flex-col justify-center left-0 top-[65px] w-[46.144px]">
-        <p className="leading-[26px]">who</p>
-      </div>
-      <div className="-translate-y-1/2 absolute flex flex-col justify-center left-[50.63px] top-[65px] w-[66.199px]">
-        <p className="leading-[26px]">help</p>
-      </div>
-      <div className="-translate-y-1/2 absolute flex flex-col justify-center left-[120.83px] top-[65px] w-[34.109px]">
-        <p className="leading-[26px]">build</p>
-      </div>
-      <div className="-translate-y-1/2 absolute flex flex-col justify-center left-[159.6px] top-[65px] w-[104.182px]">
-        <p className="leading-[26px]">technology</p>
-      </div>
-      <div className="-translate-y-1/2 absolute flex flex-col justify-center left-[270.28px] top-[65px] w-[19.177px]">
-        <p className="leading-[26px]">that</p>
-      </div>
-      <div className="-translate-y-1/2 absolute flex flex-col justify-center left-[293.08px] top-[65px] w-[60.188px]">
-        <p className="leading-[26px]">creates</p>
-      </div>
-      <div className="-translate-y-1/2 absolute flex flex-col justify-center left-0 top-[91px] w-[34.109px]">
-        <p className="leading-[26px]">real</p>
-      </div>
-      <div className="-translate-y-1/2 absolute flex flex-col justify-center left-[38.77px] top-[91px] w-[119.102px]">
-        <p className="leading-[26px]">value.</p>
-      </div>
+    <div className="[word-break:break-word] font-['Kanit:Regular',sans-serif] not-italic relative shrink-0 text-[#555] text-[20px] w-full" data-name="We are a Chennai-based digital agency of passionate developers, designers, and problem-solvers who help build technology that creates real value.">
+      <p className="leading-[26px]">We are a Chennai-based digital agency of passionate developers, designers, and problem-solvers who help build technology that creates real value.</p>
     </div>
   );
 }
@@ -1510,51 +1441,17 @@ function Container90() {
 
 function Heading201WhoWeAreHaveABrilliantIdeaBoostTheGrowthDevelopmentAgencyYourBranding() {
   return (
-    <div className="[word-break:break-word] h-[300px] leading-[0] relative shrink-0 uppercase w-full" data-name="Heading 2 - 01 who we are  Have a brilliant idea boost the  Growth development Agency your branding!">
-      <div className="-translate-y-1/2 absolute flex flex-col font-['Kanit:Bold',sans-serif] justify-center left-0 not-italic text-[#121212] text-[16px] top-[34px] w-[17.175px]">
+    <div className="[word-break:break-word] relative shrink-0 uppercase w-full" data-name="Heading 2 - 01 who we are We Build Technology That Creates Real Value For Your Business Growth!">
+      <div className="flex items-center gap-[8px] font-['Kanit:Bold',sans-serif] not-italic text-[#121212] text-[16px] pb-[18px]">
         <p className="leading-[16px]">01</p>
-      </div>
-      <div className="-translate-y-1/2 absolute flex flex-col font-['Kanit:Bold',sans-serif] justify-center left-[19.78px] not-italic text-[#121212] text-[16px] top-[34px] w-[37.108px]">
         <p className="leading-[16px]">who</p>
-      </div>
-      <div className="-translate-y-1/2 absolute flex flex-col font-['Kanit:Bold',sans-serif] justify-center left-[59.67px] not-italic text-[#121212] text-[16px] top-[34px] w-[24.114px]">
         <p className="leading-[16px]">we</p>
-      </div>
-      <div className="-translate-y-1/2 absolute flex flex-col font-['Kanit:Bold',sans-serif] justify-center left-[86px] not-italic text-[#121212] text-[16px] top-[34px] w-[31.188px]">
         <p className="leading-[16px]">are</p>
       </div>
-      <div className="-translate-y-1/2 absolute flex flex-col font-['Teko:Bold',sans-serif] font-bold justify-center left-[219.84px] text-[#121212] text-[80px] top-[37.5px] w-[167.126px]">
-        <p className="leading-[75px]">We</p>
-      </div>
-      <div className="-translate-y-1/2 absolute flex flex-col font-['Teko:Bold',sans-serif] font-bold justify-center left-[401.86px] text-[#121212] text-[80px] top-[37.5px] w-[44.107px]">
-        <p className="leading-[75px]">Build</p>
-      </div>
-      <div className="-translate-y-1/2 absolute flex flex-col font-['Teko:Bold',sans-serif] font-bold justify-center left-[461.31px] text-[#121212] text-[80px] top-[37.5px] w-[310.121px]">
-        <p className="leading-[75px]">Technology</p>
-      </div>
-      <div className="-translate-y-1/2 absolute flex flex-col font-['Teko:Bold',sans-serif] font-bold justify-center left-0 text-[#121212] text-[80px] top-[112.5px] w-[143.108px]">
-        <p className="leading-[75px]">That</p>
-      </div>
-      <div className="-translate-y-1/2 absolute flex flex-col font-['Teko:Bold',sans-serif] font-bold justify-center left-[158.11px] text-[#121212] text-[80px] top-[112.5px] w-[198.153px]">
-        <p className="leading-[75px]">Creates</p>
-      </div>
-      <div className="-translate-y-1/2 absolute flex flex-col font-['Teko:Bold',sans-serif] font-bold justify-center left-[371.8px] text-[#121212] text-[80px] top-[112.5px] w-[115.175px]">
-        <p className="leading-[75px]">Real</p>
-      </div>
-      <div className="-translate-y-1/2 absolute flex flex-col font-['Teko:Bold',sans-serif] font-bold justify-center left-[502.28px] text-[#999] text-[80px] top-[112.5px] w-[268.105px]">
-        <p className="leading-[75px]">Value</p>
-      </div>
-      <div className="-translate-y-1/2 absolute flex flex-col font-['Teko:Bold',sans-serif] font-bold justify-center left-0 text-[#999] text-[80px] top-[187.5px] w-[439.17px]">
-        <p className="leading-[75px]">For</p>
-      </div>
-      <div className="-translate-y-1/2 absolute flex flex-col font-['Teko:Bold',sans-serif] font-bold justify-center left-[454.28px] text-[#121212] text-[80px] top-[187.5px] w-[244.187px]">
-        <p className="leading-[75px]">Your</p>
-      </div>
-      <div className="-translate-y-1/2 absolute flex flex-col font-['Teko:Bold',sans-serif] font-bold justify-center left-0 text-[#121212] text-[80px] top-[262.5px] w-[166.128px]">
-        <p className="leading-[75px]">Business</p>
-      </div>
-      <div className="-translate-y-1/2 absolute flex flex-col font-['Teko:Bold',sans-serif] font-bold justify-center left-[181.7px] text-[#121212] text-[80px] top-[262.5px] w-[338.131px]">
-        <p className="leading-[75px]">Growth!</p>
+      <div className="font-['Teko:Bold',sans-serif] font-bold text-[#121212] text-[80px]">
+        <p className="leading-[75px]">
+          We Build Technology That Creates Real <span className="text-[#999]">Value For</span> Your Business Growth!
+        </p>
       </div>
     </div>
   );
@@ -1861,7 +1758,7 @@ function Container126() {
       <div className="relative rounded-[170px] shrink-0 size-[170px]" data-name="Component 8">
         <div className="overflow-clip relative rounded-[inherit] size-full">
           <Component className="-translate-x-1/2 -translate-y-1/2 absolute h-[16px] left-[calc(50%+50.54px)] overflow-clip top-1/2 w-[11px]" variant="5" />
-          <div className="-translate-x-1/2 -translate-y-1/2 [word-break:break-word] absolute flex flex-col font-['Kanit:SemiBold',sans-serif] justify-center leading-[0] left-[calc(50%-9.98px)] not-italic text-[#121212] text-[16px] text-center top-[calc(50%-12.5px)] uppercase w-[92.135px]">
+          <div className="-translate-x-1/2 -translate-y-1/2 [word-break:break-word] absolute flex flex-col font-['Kanit:SemiBold',sans-serif] justify-center leading-[0] left-[calc(50%-9.98px)] not-italic text-[#121212] text-[16px] text-center top-[calc(50%-12.5px)] uppercase w-[92.135px] whitespace-nowrap">
             <p className="leading-[23.5px]">Explore Us</p>
           </div>
           <div className="-translate-x-1/2 -translate-y-1/2 [word-break:break-word] absolute flex flex-col font-['Kanit:SemiBold',sans-serif] justify-center leading-[0] left-[calc(50%-34.49px)] not-italic text-[#121212] text-[16px] text-center top-[calc(50%+11px)] uppercase w-[43.123px]">
@@ -5325,7 +5222,7 @@ function Container388() {
       <div className="relative rounded-[170px] shrink-0 size-[170px]" data-name="Component 8">
         <div className="overflow-clip relative rounded-[inherit] size-full">
           <Component className="-translate-x-1/2 -translate-y-1/2 absolute h-[16px] left-[calc(50%+50.55px)] overflow-clip top-1/2 w-[11px]" variant="5" />
-          <div className="-translate-x-1/2 -translate-y-1/2 [word-break:break-word] absolute flex flex-col font-['Kanit:SemiBold',sans-serif] justify-center leading-[0] left-[calc(50%-9.98px)] not-italic text-[#121212] text-[16px] text-center top-[calc(50%-12.5px)] uppercase w-[92.135px]">
+          <div className="-translate-x-1/2 -translate-y-1/2 [word-break:break-word] absolute flex flex-col font-['Kanit:SemiBold',sans-serif] justify-center leading-[0] left-[calc(50%-9.98px)] not-italic text-[#121212] text-[16px] text-center top-[calc(50%-12.5px)] uppercase w-[92.135px] whitespace-nowrap">
             <p className="leading-[23.5px]">Explore Us</p>
           </div>
           <div className="-translate-x-1/2 -translate-y-1/2 [word-break:break-word] absolute flex flex-col font-['Kanit:SemiBold',sans-serif] justify-center leading-[0] left-[calc(50%-34.49px)] not-italic text-[#121212] text-[16px] text-center top-[calc(50%+11px)] uppercase w-[43.123px]">
@@ -7144,7 +7041,7 @@ function Container459() {
 
 function Paragraph8() {
   return (
-    <div className="content-stretch flex gap-[12.5px] items-start justify-center mb-[-0.015px] overflow-clip relative shrink-0 w-full" data-name="Paragraph">
+    <div className="content-stretch flex gap-[12.5px] items-start justify-center mb-[-0.015px] relative shrink-0 w-full" data-name="Paragraph">
       <div className="flex flex-col justify-center relative shrink-0">
         <p className="leading-[74.97px]">Let’s</p>
       </div>
@@ -7160,7 +7057,7 @@ function Paragraph8() {
 
 function Paragraph9() {
   return (
-    <div className="content-stretch flex gap-[12.5px] items-start justify-center overflow-clip relative shrink-0 w-full" data-name="Paragraph">
+    <div className="content-stretch flex gap-[12.5px] items-start justify-center relative shrink-0 w-full" data-name="Paragraph">
       <div className="flex flex-col justify-center relative shrink-0">
         <p className="leading-[74.97px]">experience</p>
       </div>
@@ -7193,7 +7090,7 @@ function Container520() {
 
 function Container519() {
   return (
-    <div className="content-stretch flex flex-col items-start justify-center max-w-[1290px] relative shrink-0 w-[643px]" data-name="Container">
+    <div className="content-stretch flex flex-col items-center justify-center max-w-[1290px] relative shrink-0 w-full" data-name="Container">
       <Container520 />
     </div>
   );
@@ -7249,26 +7146,16 @@ function Container518() {
 
 function Paragraph10() {
   return (
-    <div className="h-[74.41px] overflow-clip relative shrink-0 w-full" data-name="Paragraph">
-      <div className="-translate-y-1/2 absolute flex flex-col justify-center left-0 top-[36.5px] w-[280.109px]">
-        <p className="leading-[74.4px]">Insights</p>
-      </div>
-      <div className="-translate-y-1/2 absolute flex flex-col justify-center left-[295.95px] top-[36.5px] w-[242.186px]">
-        <p className="leading-[74.4px]">From</p>
-      </div>
+    <div className="relative shrink-0 w-full">
+      <p className="leading-[74.4px]">Insights From</p>
     </div>
   );
 }
 
 function Paragraph11() {
   return (
-    <div className="h-[74.41px] overflow-clip relative shrink-0 w-full" data-name="Paragraph">
-      <div className="-translate-y-1/2 absolute flex flex-col justify-center left-0 top-[36.5px] w-[77.115px]">
-        <p className="leading-[74.4px]">LiveWires</p>
-      </div>
-      <div className="-translate-y-1/2 absolute flex flex-col justify-center left-[92.48px] top-[36.5px] w-[245.187px]">
-        <p className="leading-[74.4px]">Blog</p>
-      </div>
+    <div className="relative shrink-0 w-full">
+      <p className="leading-[74.4px]">LiveWires Blog</p>
     </div>
   );
 }
