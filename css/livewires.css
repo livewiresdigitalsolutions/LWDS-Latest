@@ -1,0 +1,200 @@
+/* LiveWires additions on top of the Canvasly template styles. */
+
+/* ------------------------------------------------------------ team grid */
+/* One grid in reading order (CEO first); every row lines up evenly. */
+.lw-team-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  column-gap: var(--spaces--4x-large);
+  row-gap: var(--spaces--3x-large);
+  align-items: start;
+}
+
+.lw-team-grid .s-team-coll {
+  transform: none;
+}
+
+/* A lone last card sits in the middle column instead of hugging the left. */
+.lw-team-grid .s-team-coll:last-child:nth-child(3n + 1) {
+  grid-column: 2;
+}
+
+@media screen and (max-width: 991px) {
+  .lw-team-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: var(--spaces--x-large);
+    row-gap: var(--spaces--2x-large);
+  }
+
+  .lw-team-grid .s-team-coll:nth-child(n) {
+    grid-column: auto;
+  }
+
+  /* Odd count: centre the final card at single-column width. */
+  .lw-team-grid .s-team-coll:last-child:nth-child(odd) {
+    grid-column: 1 / -1;
+    justify-self: center;
+    width: calc(50% - var(--spaces--x-large) / 2);
+  }
+}
+
+/* ------------------------------------------------------------ work filter */
+.lw-filter {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--spaces--x-small);
+  margin: 0 auto;
+  max-width: 72rem;
+}
+
+.lw-filter-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spaces--x-small);
+  min-height: 2.75rem;
+  padding: 0 0.9rem 0 1rem;
+  border: 1px solid var(--_theme---base-color-neutral--coco’s-black-30, #1a1c184d);
+  border-radius: 999px;
+  background-color: transparent;
+  color: var(--_theme---text-color--primary, #1a1c18);
+  font-family: var(--_typography---font-families--primary);
+  font-size: 0.9rem;
+  font-weight: 500;
+  line-height: 1;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease, transform 0.16s ease-out;
+}
+
+.lw-filter-count {
+  display: inline-grid;
+  place-items: center;
+  min-width: 1.5rem;
+  height: 1.5rem;
+  padding: 0 0.4rem;
+  border-radius: 999px;
+  background-color: var(--_theme---base-color-neutral--coco’s-black-06, #1a1c180f);
+  font-size: 0.75rem;
+  font-variant-numeric: tabular-nums;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .lw-filter-chip:hover {
+    border-color: var(--_theme---base-color-neutral--coco’s-black, #1a1c18);
+  }
+}
+
+.lw-filter-chip:active {
+  transform: scale(0.97);
+}
+
+.lw-filter-chip:focus-visible {
+  outline: 2px solid var(--_theme---base-color-brand--emerald-city, #6c7b61);
+  outline-offset: 2px;
+}
+
+.lw-filter-chip[aria-pressed="true"] {
+  border-color: var(--_theme---base-color-neutral--coco’s-black, #1a1c18);
+  background-color: var(--_theme---base-color-neutral--coco’s-black, #1a1c18);
+  color: var(--_theme---base-color-neutral--white, #fff);
+}
+
+.lw-filter-chip[aria-pressed="true"] .lw-filter-count {
+  background-color: var(--_theme---base-color-brand--bitter-lime, #d4ff00);
+  color: var(--_theme---base-color-neutral--coco’s-black, #1a1c18);
+}
+
+.lw-filter-status {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+.work-item[hidden] {
+  display: none;
+}
+
+.work-item.lw-in {
+  animation: lw-in 0.32s cubic-bezier(0.23, 1, 0.32, 1) both;
+  animation-delay: calc(var(--lw-i, 0) * 35ms);
+}
+
+@keyframes lw-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.lw-filter-empty {
+  max-width: 32rem;
+  margin: 0 auto;
+  padding: var(--spaces--5x-large) var(--spaces--x-large);
+  text-align: center;
+  color: var(--_theme---text-color--secondary, dimgrey);
+}
+
+.lw-filter-empty[hidden] {
+  display: none;
+}
+
+.lw-filter-empty-title {
+  margin-bottom: var(--spaces--x-small);
+  color: var(--_theme---text-color--primary, #1a1c18);
+  font-family: var(--_typography---font-families--primary);
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.lw-filter-empty-link {
+  display: inline-block;
+  margin-top: var(--spaces--large);
+  padding: 0.85rem 1.4rem;
+  border-radius: 999px;
+  background-color: var(--_theme---base-color-neutral--coco’s-black, #1a1c18);
+  color: var(--_theme---base-color-neutral--white, #fff);
+  font-weight: 500;
+  text-decoration: none;
+}
+
+@media screen and (max-width: 767px) {
+  .lw-filter {
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    overflow-x: auto;
+    margin-left: calc(var(--spaces--medium) * -1);
+    margin-right: calc(var(--spaces--medium) * -1);
+    padding: 0 var(--spaces--medium) var(--spaces--x-small);
+    scroll-snap-type: x proximity;
+    scroll-padding-inline: var(--spaces--medium);
+    scrollbar-width: none;
+  }
+
+  .lw-filter::-webkit-scrollbar {
+    display: none;
+  }
+
+  .lw-filter-chip {
+    flex: none;
+    scroll-snap-align: start;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .work-item.lw-in {
+    animation: none;
+  }
+
+  .lw-filter-chip {
+    transition: none;
+  }
+}
